@@ -1,0 +1,35 @@
+YIDDISH KLAL - LICENSE INFORMATION
+===================================
+
+This software contains components under different licenses:
+
+---
+
+ADAPTED COMPONENTS from tasty-imitation-keyboard
+Licensed under BSD 3-Clause License
+
+Files:
+- Direction.swift
+- KeyboardKeyBackground.swift
+- KeyboardConnector.swift
+- KeyboardKey.swift
+- Portions of KeyboardViewController.swift (character preview system)
+
+Copyright (c) 2014, Alexei Baboulevitch (archagon)
+Original source: https://github.com/archagon/tasty-imitation-keyboard
+
+Full BSD 3-Clause License text:
+https://github.com/archagon/tasty-imitation-keyboard/blob/master/LICENSE
+
+---
+
+ALL OTHER COMPONENTS
+Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+
+Copyright © 2026 Isaac L. Bleaman
+Distributed by Leyenzal - A Yiddish Literacy Project (leyenzal.org)
+Contact: bleaman@berkeley.edu
+Documentation: https://www.isaacbleaman.com/resources/yiddish_typing/
+
+Full CC BY-SA 4.0 License text:
+https://creativecommons.org/licenses/by-sa/4.0/legalcode

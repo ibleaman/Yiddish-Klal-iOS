@@ -1,8 +1,11 @@
 //
 //  SceneDelegate.swift
-//  Yiddish Klal
-//
-//  Created by Isaac L. Bleaman on 12/28/25.
+//  Yiddish Klal - A Standard Yiddish keyboard layout for iOS
+//  Created by Isaac L. Bleaman (bleaman@berkeley.edu)
+//  Distributed by Leyenzal - A Yiddish Literacy Project (leyenzal.org)
+//  Copyright © 2026 Isaac L. Bleaman.
+//  Documentation: https://www.isaacbleaman.com/resources/yiddish_typing/
+//  License: CC BY-SA 4.0
 //
 
 import UIKit

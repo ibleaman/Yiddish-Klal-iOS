@@ -6,8 +6,38 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F3D944402F016C4600B1FD62 /* YiddishKlalKeyboard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F3D944392F016C4600B1FD62 /* YiddishKlalKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F3D9443E2F016C4600B1FD62 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F3D944152F016B7500B1FD62 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F3D944382F016C4600B1FD62;
+			remoteInfo = YiddishKlalKeyboard;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F3D944452F016C4600B1FD62 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F3D944402F016C4600B1FD62 /* YiddishKlalKeyboard.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		F31EA1992F5D0116006A7754 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LICENSE.txt; sourceTree = "<group>"; };
 		F3D9441D2F016B7500B1FD62 /* Yiddish Klal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Yiddish Klal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3D944392F016C4600B1FD62 /* YiddishKlalKeyboard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = YiddishKlalKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -17,6 +47,13 @@
 				Info.plist,
 			);
 			target = F3D9441C2F016B7500B1FD62 /* Yiddish Klal */;
+		};
+		F3D944442F016C4600B1FD62 /* Exceptions for "YiddishKlalKeyboard" folder in "YiddishKlalKeyboard" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F3D944382F016C4600B1FD62 /* YiddishKlalKeyboard */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -29,10 +66,25 @@
 			path = "Yiddish Klal";
 			sourceTree = "<group>";
 		};
+		F3D9443A2F016C4600B1FD62 /* YiddishKlalKeyboard */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F3D944442F016C4600B1FD62 /* Exceptions for "YiddishKlalKeyboard" folder in "YiddishKlalKeyboard" target */,
+			);
+			path = YiddishKlalKeyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		F3D9441A2F016B7500B1FD62 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F3D944362F016C4600B1FD62 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -45,7 +97,9 @@
 		F3D944142F016B7500B1FD62 = {
 			isa = PBXGroup;
 			children = (
+				F31EA1992F5D0116006A7754 /* LICENSE.txt */,
 				F3D9441F2F016B7500B1FD62 /* Yiddish Klal */,
+				F3D9443A2F016C4600B1FD62 /* YiddishKlalKeyboard */,
 				F3D9441E2F016B7500B1FD62 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				F3D9441D2F016B7500B1FD62 /* Yiddish Klal.app */,
+				F3D944392F016C4600B1FD62 /* YiddishKlalKeyboard.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -68,10 +123,12 @@
 				F3D944192F016B7500B1FD62 /* Sources */,
 				F3D9441A2F016B7500B1FD62 /* Frameworks */,
 				F3D9441B2F016B7500B1FD62 /* Resources */,
+				F3D944452F016C4600B1FD62 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F3D9443F2F016C4600B1FD62 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				F3D9441F2F016B7500B1FD62 /* Yiddish Klal */,
@@ -82,6 +139,28 @@
 			productName = "Yiddish Klal";
 			productReference = F3D9441D2F016B7500B1FD62 /* Yiddish Klal.app */;
 			productType = "com.apple.product-type.application";
+		};
+		F3D944382F016C4600B1FD62 /* YiddishKlalKeyboard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F3D944412F016C4600B1FD62 /* Build configuration list for PBXNativeTarget "YiddishKlalKeyboard" */;
+			buildPhases = (
+				F3D944352F016C4600B1FD62 /* Sources */,
+				F3D944362F016C4600B1FD62 /* Frameworks */,
+				F3D944372F016C4600B1FD62 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				F3D9443A2F016C4600B1FD62 /* YiddishKlalKeyboard */,
+			);
+			name = YiddishKlalKeyboard;
+			packageProductDependencies = (
+			);
+			productName = YiddishKlalKeyboard;
+			productReference = F3D944392F016C4600B1FD62 /* YiddishKlalKeyboard.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -94,6 +173,9 @@
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					F3D9441C2F016B7500B1FD62 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					F3D944382F016C4600B1FD62 = {
 						CreatedOnToolsVersion = 26.2;
 					};
 				};
@@ -113,12 +195,20 @@
 			projectRoot = "";
 			targets = (
 				F3D9441C2F016B7500B1FD62 /* Yiddish Klal */,
+				F3D944382F016C4600B1FD62 /* YiddishKlalKeyboard */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		F3D9441B2F016B7500B1FD62 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F3D944372F016C4600B1FD62 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -135,7 +225,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F3D944352F016C4600B1FD62 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F3D9443F2F016C4600B1FD62 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F3D944382F016C4600B1FD62 /* YiddishKlalKeyboard */;
+			targetProxy = F3D9443E2F016C4600B1FD62 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		F3D944312F016B7700B1FD62 /* Debug */ = {
@@ -143,22 +248,29 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Yiddish Klal/Yiddish Klal.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TJPN33P784;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Yiddish Klal/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Yiddish Klal Keyboard";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.leyenzal.Yiddish-Klal";
+				PRODUCT_BUNDLE_IDENTIFIER = org.leyenzal.yiddishklal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -174,22 +286,29 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Yiddish Klal/Yiddish Klal.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TJPN33P784;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Yiddish Klal/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Yiddish Klal Keyboard";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.leyenzal.Yiddish-Klal";
+				PRODUCT_BUNDLE_IDENTIFIER = org.leyenzal.yiddishklal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -319,6 +438,70 @@
 			};
 			name = Release;
 		};
+		F3D944422F016C4600B1FD62 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = YiddishKlalKeyboard/YiddishKlalKeyboard.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TJPN33P784;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YiddishKlalKeyboard/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = YiddishKlalKeyboard;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.leyenzal.yiddishklal.keyboard;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F3D944432F016C4600B1FD62 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = YiddishKlalKeyboard/YiddishKlalKeyboard.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TJPN33P784;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YiddishKlalKeyboard/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = YiddishKlalKeyboard;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.leyenzal.yiddishklal.keyboard;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -336,6 +519,15 @@
 			buildConfigurations = (
 				F3D944312F016B7700B1FD62 /* Debug */,
 				F3D944322F016B7700B1FD62 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F3D944412F016C4600B1FD62 /* Build configuration list for PBXNativeTarget "YiddishKlalKeyboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3D944422F016C4600B1FD62 /* Debug */,
+				F3D944432F016C4600B1FD62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
