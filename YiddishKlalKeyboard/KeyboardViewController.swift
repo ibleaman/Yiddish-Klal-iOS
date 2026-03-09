@@ -126,7 +126,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         rowStack.axis = .horizontal
         rowStack.alignment = .fill
         rowStack.distribution = .fillEqually
-        rowStack.spacing = 4
+        rowStack.spacing = 3
         
         let unshifted = ["ק", "ש", "ע", "ר", "ט", "ײַ", "ו", "י", "אָ", "פּ"]
         let shifted = ["כּ", "שׂ", "ײ", "טש", "תּ", "ױ", "וּ", "יִ", "ױ", "פ"]
@@ -144,7 +144,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         rowStack.axis = .horizontal
         rowStack.alignment = .fill
         rowStack.distribution = .fillEqually
-        rowStack.spacing = 4
+        rowStack.spacing = 3
         
         let unshifted = ["אַ", "ס", "ד", "פֿ", "ג", "ה", "ײ", "ק", "ל"]
         let shifted = ["א", "ת", "דזש", "ף", "דזש", "ח", "דזש", "כּ", "ל"]
@@ -161,7 +161,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         let rowStack = UIStackView()
         rowStack.axis = .horizontal
         rowStack.alignment = .fill
-        rowStack.spacing = 4
+        rowStack.spacing = 3
         
         let shiftBtn = makeShiftKey()
         rowStack.addArrangedSubview(shiftBtn)
@@ -174,7 +174,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         lettersStack.axis = .horizontal
         lettersStack.alignment = .fill
         lettersStack.distribution = .fillEqually
-        lettersStack.spacing = 4
+        lettersStack.spacing = 3
         
         for i in 0..<unshifted.count {
             let button = makeDualKey(unshifted: unshifted[i], shifted: shifted[i])
@@ -203,7 +203,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         let rowStack = UIStackView()
         rowStack.axis = .horizontal
         rowStack.alignment = .fill
-        rowStack.spacing = 4
+        rowStack.spacing = 3
         rowStack.distribution = .fill
         
         let symbolsButton = makeSpecialKey("123", action: #selector(switchToSymbols))
@@ -254,7 +254,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         rowStack.axis = .horizontal
         rowStack.alignment = .fill
         rowStack.distribution = .fillEqually
-        rowStack.spacing = 4
+        rowStack.spacing = 3
         
         let unshifted = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
         let shifted = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")"]
@@ -272,7 +272,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         rowStack.axis = .horizontal
         rowStack.alignment = .fill
         rowStack.distribution = .fillEqually
-        rowStack.spacing = 4
+        rowStack.spacing = 3
         
         let typedUnshifted = ["־", "-", "/", ":", ";", ")", "(", "=", "+"]
         let typedShifted = ["~", "_", "\\", "]", "[", "}", "{", "≠", "±"]
@@ -297,7 +297,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         let rowStack = UIStackView()
         rowStack.axis = .horizontal
         rowStack.alignment = .fill
-        rowStack.spacing = 4
+        rowStack.spacing = 3
         
         let shiftBtn = makeShiftKey()
         rowStack.addArrangedSubview(shiftBtn)
@@ -312,7 +312,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         punctStack.axis = .horizontal
         punctStack.alignment = .fill
         punctStack.distribution = .fillEqually
-        punctStack.spacing = 4
+        punctStack.spacing = 3
         
         for i in 0..<unshifted.count {
             let button = makeDualKey(unshifted: unshifted[i], shifted: shifted[i])
@@ -341,7 +341,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         let rowStack = UIStackView()
         rowStack.axis = .horizontal
         rowStack.alignment = .fill
-        rowStack.spacing = 4
+        rowStack.spacing = 3
         rowStack.distribution = .fill
         
         let lettersButton = makeSpecialKey("א־ת", action: #selector(switchToLetters))

@@ -79,7 +79,12 @@ class ViewController: UIViewController {
         contentView.addSubview(deleteToggleLabel)
         
         deleteToggle = UISwitch()
-        deleteToggle.isOn = UserDefaults(suiteName: "group.org.leyenzal.yiddishklal")?.bool(forKey: kDeleteEntireGrapheme) ?? true
+        let defaults = UserDefaults(suiteName: "group.org.leyenzal.yiddishklal")
+        // Set default to true on first launch
+        if defaults?.object(forKey: kDeleteEntireGrapheme) == nil {
+            defaults?.set(true, forKey: kDeleteEntireGrapheme)
+        }
+        deleteToggle.isOn = defaults?.bool(forKey: kDeleteEntireGrapheme) ?? true
         deleteToggle.addTarget(self, action: #selector(deleteToggleChanged), for: .valueChanged)
         deleteToggle.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(deleteToggle)
