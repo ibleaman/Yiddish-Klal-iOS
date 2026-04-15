@@ -176,7 +176,7 @@ class ViewController: UIViewController {
             1. Open Settings on your device
             2. Go to General → Keyboard → Keyboards
             3. Tap "Add New Keyboard"
-            4. Under "Third-Party Keyboards," select "Yiddish Klal Keyboard"
+            4. Under "Third-Party Keyboards," select "Yiddish Klal"
             
             To use the keyboard:
             
@@ -211,7 +211,7 @@ class ViewController: UIViewController {
             General → Keyboard → Keyboards
             3. גיט אַ קװעטש אױף
             "Add New Keyboard"
-            4. אונטער "Third-Party Keyboards", קלײַבט אױס "Yiddish Klal Keyboard"
+            4. אונטער "Third-Party Keyboards", קלײַבט אױס "Yiddish Klal"
             
             װי אַזױ זיך צו באַניצן מיט דער קלאַװיאַטור:
             
