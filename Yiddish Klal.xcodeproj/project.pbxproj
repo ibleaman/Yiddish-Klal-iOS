@@ -255,7 +255,7 @@
 				DEVELOPMENT_TEAM = TJPN33P784;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Yiddish Klal/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Yiddish Klal Keyboard";
+				INFOPLIST_KEY_CFBundleDisplayName = "Yiddish Klal";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -293,7 +293,7 @@
 				DEVELOPMENT_TEAM = TJPN33P784;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Yiddish Klal/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Yiddish Klal Keyboard";
+				INFOPLIST_KEY_CFBundleDisplayName = "Yiddish Klal";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
