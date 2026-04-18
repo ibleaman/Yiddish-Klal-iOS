@@ -26,6 +26,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
     var popupView: KeyPopupView?
     let hapticFeedback = UIImpactFeedbackGenerator(style: .light)
     let kDeleteEntireGrapheme = "kDeleteEntireGrapheme"
+    var globeButton: UIButton?
     
     // Backspace behavior setting
     var deleteEntireGrapheme: Bool {
@@ -206,6 +207,25 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         rowStack.spacing = 3
         rowStack.distribution = .fill
         
+        // Add globe key if needed (for older iPhones with home button - e.g., iPhone SE)
+        if needsInputModeSwitchKey {
+            let globeBtn = UIButton(type: .system)
+            
+            let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular)
+            let globeImage = UIImage(systemName: "globe", withConfiguration: config)
+            globeBtn.setImage(globeImage, for: .normal)
+            globeBtn.tintColor = .black
+            
+            globeBtn.backgroundColor = UIColor(white: 0.67, alpha: 1.0)
+            globeBtn.layer.cornerRadius = 5
+            globeBtn.translatesAutoresizingMaskIntoConstraints = false
+            
+            globeBtn.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
+            
+            rowStack.addArrangedSubview(globeBtn)
+            self.globeButton = globeBtn
+        }
+        
         let symbolsButton = makeSpecialKey("123", action: #selector(switchToSymbols))
         rowStack.addArrangedSubview(symbolsButton)
         
@@ -223,11 +243,22 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         periodButton.translatesAutoresizingMaskIntoConstraints = false
         returnButton.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
-            symbolsButton.widthAnchor.constraint(equalTo: periodButton.widthAnchor),
-            periodButton.widthAnchor.constraint(equalTo: returnButton.widthAnchor),
-            spaceBtn.widthAnchor.constraint(equalTo: symbolsButton.widthAnchor, multiplier: 3.5)
-        ])
+        if needsInputModeSwitchKey {
+            // With globe button: make all special buttons equal width
+            NSLayoutConstraint.activate([
+                globeButton!.widthAnchor.constraint(equalTo: symbolsButton.widthAnchor),
+                symbolsButton.widthAnchor.constraint(equalTo: periodButton.widthAnchor),
+                periodButton.widthAnchor.constraint(equalTo: returnButton.widthAnchor),
+                spaceBtn.widthAnchor.constraint(equalTo: symbolsButton.widthAnchor, multiplier: 3.0)
+            ])
+        } else {
+            // Without globe button: original layout
+            NSLayoutConstraint.activate([
+                symbolsButton.widthAnchor.constraint(equalTo: periodButton.widthAnchor),
+                periodButton.widthAnchor.constraint(equalTo: returnButton.widthAnchor),
+                spaceBtn.widthAnchor.constraint(equalTo: symbolsButton.widthAnchor, multiplier: 3.5)
+            ])
+        }
         
         return rowStack
     }
