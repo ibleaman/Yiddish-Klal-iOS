@@ -12,7 +12,7 @@ A QWERTY-based keyboard for typing in Standard Yiddish (YIVO orthography) on iOS
 
 ## Installation
 
-Download from the [App Store](https://apps.apple.com/) (link will be added after approval)
+Download from the [App Store](https://apps.apple.com/app/yiddish-klal-keyboard/id6760241466)
 
 Then enable the keyboard in Settings → General → Keyboard → Keyboards → Add New Keyboard → Yiddish Klal
 
