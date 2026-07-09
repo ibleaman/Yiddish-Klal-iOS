@@ -336,17 +336,31 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         
         let openQuote = "\u{201E}"
         let closeQuote = "\u{201C}"
-        let unshifted = [".", ",", "?", "!", "'", "\"", closeQuote, openQuote]
-        let shifted = ["<", ">", "¿", "¡", "`", "′", "«", "»"]
-        
+        let displayUnshifted = [".", ",", "?", "!", "'", "\"", closeQuote, openQuote]
+        let displayShifted = ["<", ">", "¿", "¡", "`", "′", "«", "»"]
+
+        // Typed values swap < and > (indices 0,1) to compensate for bidi mirroring in RTL context
+        let typedShifted = [">", "<", "¿", "¡", "`", "′", "«", "»"]
+
         let punctStack = UIStackView()
         punctStack.axis = .horizontal
         punctStack.alignment = .fill
         punctStack.distribution = .fillEqually
         punctStack.spacing = 3
-        
-        for i in 0..<unshifted.count {
-            let button = makeDualKey(unshifted: unshifted[i], shifted: shifted[i])
+
+        for i in 0..<displayUnshifted.count {
+            let button: KeyboardKey
+            if i == 0 || i == 1 {
+                // Angle brackets need RTL-aware handling, like parentheses in row 2
+                button = makeRTLDualKey(
+                    displayUnshifted: displayUnshifted[i],
+                    displayShifted: displayShifted[i],
+                    typedUnshifted: displayUnshifted[i],
+                    typedShifted: typedShifted[i]
+                )
+            } else {
+                button = makeDualKey(unshifted: displayUnshifted[i], shifted: displayShifted[i])
+            }
             punctStack.addArrangedSubview(button)
         }
         
