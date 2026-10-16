@@ -124,14 +124,14 @@ class KeyboardKey: UIControl {
         self.label = UILabel()
         self.text = ""
         
-        self.color = UIColor.white
-        self.underColor = UIColor(white: 0.67, alpha: 1.0)
-        self.popupColor = UIColor.white
-        self.underOffset = 1
+        self.color = .keyFill
+        self.underColor = .keyUnder
+        self.popupColor = .keyPopupFill
+        self.underOffset = KeyboardStyle.usesLiquidGlass ? 0 : 1
         
-        self.background = KeyboardKeyBackground(cornerRadius: 5, underOffset: self.underOffset)
+        self.background = KeyboardKeyBackground(cornerRadius: KeyboardStyle.keyCornerRadius, underOffset: self.underOffset)
         
-        self.textColor = UIColor.black
+        self.textColor = .keyText
         self.popupDirection = nil
         
         super.init(frame: CGRect.zero)
@@ -272,12 +272,24 @@ class KeyboardKey: UIControl {
         }
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if self.traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            self.updateColors()
+        }
+    }
+    
     func updateColors() {
+        // A CGColor does not follow dark mode, so resolve it with this view's traits.
+        let previousTraits = UITraitCollection.current
+        UITraitCollection.current = self.traitCollection
+        defer { UITraitCollection.current = previousTraits }
+        
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         
         if self.isHighlighted {
-            self.displayView.fillColor = UIColor(white: 0.85, alpha: 1.0)
+            self.displayView.fillColor = .keyFillPressed
         }
         else {
             self.displayView.fillColor = self.color

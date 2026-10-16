@@ -60,7 +60,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
             keyboard.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             keyboard.topAnchor.constraint(equalTo: view.topAnchor),
             keyboard.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            keyboard.heightAnchor.constraint(greaterThanOrEqualToConstant: 270)
+            keyboard.heightAnchor.constraint(greaterThanOrEqualToConstant: minimumKeyboardHeight)
         ])
         
         hapticFeedback.prepare()
@@ -105,19 +105,39 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
     
     // MARK: - Keyboard Creation
     
+    let keyboardInsets = UIEdgeInsets(top: 60, left: KeyboardStyle.sideInset, bottom: KeyboardStyle.bottomInset, right: KeyboardStyle.sideInset)
+    
+    var minimumKeyboardHeight: CGFloat {
+        keyboardInsets.top + keyboardInsets.bottom + 4 * KeyboardStyle.keyHeight + 3 * KeyboardStyle.rowSpacing
+    }
+    
+    // A full row holds ten letter keys and nine gaps.
+    func keyWidth(_ key: UIView, units: CGFloat, in row: UIView) -> NSLayoutConstraint {
+        key.widthAnchor.constraint(equalTo: row.widthAnchor, multiplier: units / 10, constant: -units * 0.9 * KeyboardStyle.keySpacing)
+    }
+    
+    // A row with fewer than ten keys keeps the letter-key width and is centered.
+    func setRowWidths(of stack: UIStackView, keyCounts: [CGFloat]) {
+        NSLayoutConstraint.activate(zip(stack.arrangedSubviews, keyCounts).map { row, count in
+            row.widthAnchor.constraint(equalTo: stack.layoutMarginsGuide.widthAnchor, multiplier: count / 10, constant: -(1 - count / 10) * KeyboardStyle.keySpacing)
+        })
+    }
+    
     func createLettersKeyboard() -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .fill
+        stackView.alignment = .center
         stackView.distribution = .fillEqually
-        stackView.spacing = 8
-        stackView.layoutMargins = UIEdgeInsets(top: 60, left: 4, bottom: 8, right: 4)
+        stackView.spacing = KeyboardStyle.rowSpacing
+        stackView.layoutMargins = keyboardInsets
         stackView.isLayoutMarginsRelativeArrangement = true
         
         stackView.addArrangedSubview(createRow1())
         stackView.addArrangedSubview(createRow2())
         stackView.addArrangedSubview(createRow3())
         stackView.addArrangedSubview(createLettersBottomRow())
+        
+        setRowWidths(of: stackView, keyCounts: [10, 9, 10, 10])
         
         return stackView
     }
@@ -127,7 +147,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         rowStack.axis = .horizontal
         rowStack.alignment = .fill
         rowStack.distribution = .fillEqually
-        rowStack.spacing = 3
+        rowStack.spacing = KeyboardStyle.keySpacing
         
         let unshifted = ["ק", "ש", "ע", "ר", "ט", "ײַ", "ו", "י", "אָ", "פּ"]
         let shifted = ["כּ", "שׂ", "ײ", "טש", "תּ", "ױ", "וּ", "יִ", "ױ", "פ"]
@@ -145,7 +165,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         rowStack.axis = .horizontal
         rowStack.alignment = .fill
         rowStack.distribution = .fillEqually
-        rowStack.spacing = 3
+        rowStack.spacing = KeyboardStyle.keySpacing
         
         let unshifted = ["אַ", "ס", "ד", "פֿ", "ג", "ה", "ײ", "ק", "ל"]
         let shifted = ["א", "ת", "דזש", "ף", "דזש", "ח", "דזש", "כּ", "ל"]
@@ -158,11 +178,24 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         return rowStack
     }
     
+    // Shift and delete are wide where the row has room and shrink where it does not.
+    func sizeEdgeKeys(_ shift: UIView, _ delete: UIView, around keys: UIStackView, in row: UIStackView) {
+        guard let firstKey = keys.arrangedSubviews.first else { return }
+        let preferredWidth = shift.widthAnchor.constraint(equalTo: firstKey.widthAnchor, multiplier: KeyboardStyle.wideKeyUnits)
+        preferredWidth.priority = .defaultHigh
+        NSLayoutConstraint.activate([
+            keyWidth(firstKey, units: 1, in: row),
+            delete.widthAnchor.constraint(equalTo: shift.widthAnchor),
+            preferredWidth
+        ])
+    }
+    
     func createRow3() -> UIStackView {
         let rowStack = UIStackView()
         rowStack.axis = .horizontal
         rowStack.alignment = .fill
-        rowStack.spacing = 3
+        rowStack.distribution = .equalSpacing
+        rowStack.spacing = KeyboardStyle.keySpacing
         
         let shiftBtn = makeShiftKey()
         rowStack.addArrangedSubview(shiftBtn)
@@ -175,7 +208,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         lettersStack.axis = .horizontal
         lettersStack.alignment = .fill
         lettersStack.distribution = .fillEqually
-        lettersStack.spacing = 3
+        lettersStack.spacing = KeyboardStyle.keySpacing
         
         for i in 0..<unshifted.count {
             let button = makeDualKey(unshifted: unshifted[i], shifted: shifted[i])
@@ -190,12 +223,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         shiftBtn.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         
-        if let firstLetter = lettersStack.arrangedSubviews.first {
-            NSLayoutConstraint.activate([
-                shiftBtn.widthAnchor.constraint(equalTo: firstLetter.widthAnchor, multiplier: 1.7),
-                deleteButton.widthAnchor.constraint(equalTo: firstLetter.widthAnchor, multiplier: 1.7)
-            ])
-        }
+        sizeEdgeKeys(shiftBtn, deleteButton, around: lettersStack, in: rowStack)
         
         return rowStack
     }
@@ -204,7 +232,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         let rowStack = UIStackView()
         rowStack.axis = .horizontal
         rowStack.alignment = .fill
-        rowStack.spacing = 3
+        rowStack.spacing = KeyboardStyle.keySpacing
         rowStack.distribution = .fill
         
         // Add globe key if needed (for older iPhones with home button - e.g., iPhone SE)
@@ -214,10 +242,10 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
             let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular)
             let globeImage = UIImage(systemName: "globe", withConfiguration: config)
             globeBtn.setImage(globeImage, for: .normal)
-            globeBtn.tintColor = .black
+            globeBtn.tintColor = .keyText
             
-            globeBtn.backgroundColor = UIColor(white: 0.67, alpha: 1.0)
-            globeBtn.layer.cornerRadius = 5
+            globeBtn.backgroundColor = .specialKeyFill
+            globeBtn.layer.cornerRadius = KeyboardStyle.keyCornerRadius
             globeBtn.translatesAutoresizingMaskIntoConstraints = false
             
             globeBtn.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
@@ -230,6 +258,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         rowStack.addArrangedSubview(symbolsButton)
         
         let spaceBtn = makeSpecialKey("", action: #selector(spacePressed))
+        spaceBtn.backgroundColor = .keyFill
         self.spaceButton = spaceBtn
         rowStack.addArrangedSubview(spaceBtn)
         
@@ -243,21 +272,13 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         periodButton.translatesAutoresizingMaskIntoConstraints = false
         returnButton.translatesAutoresizingMaskIntoConstraints = false
         
+        NSLayoutConstraint.activate([
+            keyWidth(symbolsButton, units: KeyboardStyle.wideKeyUnits, in: rowStack),
+            keyWidth(periodButton, units: KeyboardStyle.wideKeyUnits, in: rowStack),
+            keyWidth(returnButton, units: KeyboardStyle.returnKeyUnits, in: rowStack)
+        ])
         if needsInputModeSwitchKey {
-            // With globe button: make all special buttons equal width
-            NSLayoutConstraint.activate([
-                globeButton!.widthAnchor.constraint(equalTo: symbolsButton.widthAnchor),
-                symbolsButton.widthAnchor.constraint(equalTo: periodButton.widthAnchor),
-                periodButton.widthAnchor.constraint(equalTo: returnButton.widthAnchor),
-                spaceBtn.widthAnchor.constraint(equalTo: symbolsButton.widthAnchor, multiplier: 3.0)
-            ])
-        } else {
-            // Without globe button: original layout
-            NSLayoutConstraint.activate([
-                symbolsButton.widthAnchor.constraint(equalTo: periodButton.widthAnchor),
-                periodButton.widthAnchor.constraint(equalTo: returnButton.widthAnchor),
-                spaceBtn.widthAnchor.constraint(equalTo: symbolsButton.widthAnchor, multiplier: 3.5)
-            ])
+            globeButton!.widthAnchor.constraint(equalTo: symbolsButton.widthAnchor).isActive = true
         }
         
         return rowStack
@@ -266,16 +287,18 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
     func createSymbolsKeyboard() -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .fill
+        stackView.alignment = .center
         stackView.distribution = .fillEqually
-        stackView.spacing = 8
-        stackView.layoutMargins = UIEdgeInsets(top: 60, left: 4, bottom: 8, right: 4)
+        stackView.spacing = KeyboardStyle.rowSpacing
+        stackView.layoutMargins = keyboardInsets
         stackView.isLayoutMarginsRelativeArrangement = true
         
         stackView.addArrangedSubview(createSymbolsRow1())
         stackView.addArrangedSubview(createSymbolsRow2())
         stackView.addArrangedSubview(createSymbolsRow3())
         stackView.addArrangedSubview(createSymbolsBottomRow())
+        
+        setRowWidths(of: stackView, keyCounts: [10, 9, 10, 10])
         
         return stackView
     }
@@ -285,7 +308,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         rowStack.axis = .horizontal
         rowStack.alignment = .fill
         rowStack.distribution = .fillEqually
-        rowStack.spacing = 3
+        rowStack.spacing = KeyboardStyle.keySpacing
         
         let unshifted = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
         let shifted = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")"]
@@ -303,7 +326,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         rowStack.axis = .horizontal
         rowStack.alignment = .fill
         rowStack.distribution = .fillEqually
-        rowStack.spacing = 3
+        rowStack.spacing = KeyboardStyle.keySpacing
         
         let typedUnshifted = ["־", "-", "/", ":", ";", ")", "(", "=", "+"]
         let typedShifted = ["~", "_", "\\", "]", "[", "}", "{", "≠", "±"]
@@ -328,7 +351,8 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         let rowStack = UIStackView()
         rowStack.axis = .horizontal
         rowStack.alignment = .fill
-        rowStack.spacing = 3
+        rowStack.distribution = .equalSpacing
+        rowStack.spacing = KeyboardStyle.keySpacing
         
         let shiftBtn = makeShiftKey()
         rowStack.addArrangedSubview(shiftBtn)
@@ -346,7 +370,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         punctStack.axis = .horizontal
         punctStack.alignment = .fill
         punctStack.distribution = .fillEqually
-        punctStack.spacing = 3
+        punctStack.spacing = KeyboardStyle.keySpacing
 
         for i in 0..<displayUnshifted.count {
             let button: KeyboardKey
@@ -372,12 +396,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         shiftBtn.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         
-        if let firstButton = punctStack.arrangedSubviews.first {
-            NSLayoutConstraint.activate([
-                shiftBtn.widthAnchor.constraint(equalTo: firstButton.widthAnchor, multiplier: 1.7),
-                deleteButton.widthAnchor.constraint(equalTo: firstButton.widthAnchor, multiplier: 1.7)
-            ])
-        }
+        sizeEdgeKeys(shiftBtn, deleteButton, around: punctStack, in: rowStack)
         
         return rowStack
     }
@@ -386,13 +405,14 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         let rowStack = UIStackView()
         rowStack.axis = .horizontal
         rowStack.alignment = .fill
-        rowStack.spacing = 3
+        rowStack.spacing = KeyboardStyle.keySpacing
         rowStack.distribution = .fill
         
         let lettersButton = makeSpecialKey("א־ת", action: #selector(switchToLetters))
         rowStack.addArrangedSubview(lettersButton)
         
         let spaceBtn = makeSpecialKey("", action: #selector(spacePressed))
+        spaceBtn.backgroundColor = .keyFill
         self.spaceButton = spaceBtn
         rowStack.addArrangedSubview(spaceBtn)
         
@@ -407,9 +427,9 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         returnButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            lettersButton.widthAnchor.constraint(equalTo: periodButton.widthAnchor),
-            periodButton.widthAnchor.constraint(equalTo: returnButton.widthAnchor),
-            spaceBtn.widthAnchor.constraint(equalTo: lettersButton.widthAnchor, multiplier: 3.5)
+            keyWidth(lettersButton, units: KeyboardStyle.wideKeyUnits, in: rowStack),
+            keyWidth(periodButton, units: KeyboardStyle.wideKeyUnits, in: rowStack),
+            keyWidth(returnButton, units: KeyboardStyle.returnKeyUnits, in: rowStack)
         ])
         
         return rowStack
@@ -453,13 +473,17 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         return button
     }
     
+    func setIcon(_ symbolName: String, on button: UIButton) {
+        let config = UIImage.SymbolConfiguration(pointSize: KeyboardStyle.iconPointSize, weight: .regular)
+        button.setImage(UIImage(systemName: symbolName, withConfiguration: config), for: .normal)
+    }
+    
     func makeShiftKey() -> UIButton {
         let button = UIButton(type: .system)
-        button.setTitle("⇧", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = UIColor(white: 0.67, alpha: 1.0)
-        button.layer.cornerRadius = 5
+        setIcon("shift", on: button)
+        button.tintColor = .keyText
+        button.backgroundColor = .specialKeyFill
+        button.layer.cornerRadius = KeyboardStyle.keyCornerRadius
         button.addTarget(self, action: #selector(shiftTouchDown(_:)), for: .touchDown)
         button.addTarget(self, action: #selector(shiftPressed), for: .touchUpInside)
         button.addTarget(self, action: #selector(shiftTouchUp(_:)), for: [.touchUpInside, .touchUpOutside, .touchCancel])
@@ -469,10 +493,11 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
     func makeSpecialKey(_ label: String, action: Selector) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(label, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = UIColor(white: 0.67, alpha: 1.0)
-        button.layer.cornerRadius = 5
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        button.setTitleColor(.keyText, for: .normal)
+        button.tintColor = .keyText
+        button.backgroundColor = .specialKeyFill
+        button.layer.cornerRadius = KeyboardStyle.keyCornerRadius
         
         // Visual feedback
         button.addTarget(self, action: #selector(buttonTouchDown(_:)), for: .touchDown)
@@ -481,6 +506,10 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
         button.addTarget(self, action: action, for: .touchUpInside)
         
         if label == "⌦" {
+            // The system Hebrew-script keyboards mirror the delete icon.
+            button.setTitle(nil, for: .normal)
+            setIcon("delete.right", on: button)
+            
             let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleDeleteLongPress(_:)))
             longPress.minimumPressDuration = 0.5
             button.addGestureRecognizer(longPress)
@@ -490,13 +519,8 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
     }
     
     func makeReturnKey() -> UIButton {
-        let button = UIButton(type: .system)
-        button.setTitle("↵", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemBlue
-        button.layer.cornerRadius = 5
-        button.addTarget(self, action: #selector(returnPressed), for: .touchUpInside)
+        let button = makeSpecialKey("", action: #selector(returnPressed))
+        setIcon("return.right", on: button)
         return button
     }
     
@@ -519,16 +543,16 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
     // MARK: - Button Visual Feedback
 
     @objc func buttonTouchDown(_ sender: UIButton) {
-        sender.backgroundColor = .white
+        sender.backgroundColor = sender == spaceButton ? .keyFillPressed : .specialKeyFillPressed
     }
 
     @objc func buttonTouchUp(_ sender: UIButton) {
-        sender.backgroundColor = UIColor(white: 0.67, alpha: 1.0)
+        sender.backgroundColor = sender == spaceButton ? .keyFill : .specialKeyFill
     }
 
     @objc func shiftTouchDown(_ sender: UIButton) {
         if !isShifted {
-            sender.backgroundColor = .white
+            sender.backgroundColor = .specialKeyFillPressed
         }
     }
 
@@ -830,7 +854,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
             symbolsKeyboard.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             symbolsKeyboard.topAnchor.constraint(equalTo: view.topAnchor),
             symbolsKeyboard.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            symbolsKeyboard.heightAnchor.constraint(greaterThanOrEqualToConstant: 270)
+            symbolsKeyboard.heightAnchor.constraint(greaterThanOrEqualToConstant: minimumKeyboardHeight)
         ])
         
         symbolsKeyboard.layoutIfNeeded()
@@ -849,7 +873,7 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
             lettersKeyboard.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             lettersKeyboard.topAnchor.constraint(equalTo: view.topAnchor),
             lettersKeyboard.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            lettersKeyboard.heightAnchor.constraint(greaterThanOrEqualToConstant: 270)
+            lettersKeyboard.heightAnchor.constraint(greaterThanOrEqualToConstant: minimumKeyboardHeight)
         ])
         
         lettersKeyboard.layoutIfNeeded()
@@ -867,12 +891,10 @@ class KeyboardViewController: UIInputViewController, KeyboardKeyProtocol {
     func toggleShift() {
         isShifted.toggle()
         
-        if isShifted {
-            shiftButton?.backgroundColor = .white
-            shiftButton?.setTitleColor(.systemBlue, for: .normal)
-        } else {
-            shiftButton?.backgroundColor = UIColor(white: 0.67, alpha: 1.0)
-            shiftButton?.setTitleColor(.black, for: .normal)
+        if let shiftButton = shiftButton {
+            setIcon(isShifted ? "shift.fill" : "shift", on: shiftButton)
+            shiftButton.backgroundColor = isShifted ? .shiftOnFill : .specialKeyFill
+            shiftButton.tintColor = isShifted ? .shiftOnIcon : .keyText
         }
         
         let allKeys = keyboardStack?.arrangedSubviews.compactMap { row -> [KeyboardKey] in
@@ -954,15 +976,20 @@ class KeyPopupView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        layer.borderColor = UIColor.keyUnder.resolvedColor(with: traitCollection).cgColor
+    }
+    
     func setupView() {
-        backgroundColor = .white
+        backgroundColor = .keyPopupFill
         layer.cornerRadius = 8
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 2)
         layer.shadowOpacity = 0.3
         layer.shadowRadius = 4
         layer.borderWidth = 1
-        layer.borderColor = UIColor.lightGray.cgColor
+        layer.borderColor = UIColor.keyUnder.resolvedColor(with: traitCollection).cgColor
         
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -986,7 +1013,7 @@ class KeyPopupView: UIView {
             label.text = option
             label.font = UIFont.systemFont(ofSize: 24, weight: .regular)
             label.textAlignment = .center
-            label.textColor = .black
+            label.textColor = .keyText
             label.translatesAutoresizingMaskIntoConstraints = false
             container.addSubview(label)
             
